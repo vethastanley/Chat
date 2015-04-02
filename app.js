@@ -5,10 +5,15 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var swig = require('swig');
-var routes = require('./routes/index');
 
+var mongo = require('mongoskin');
+var db = mongo.db('mongodb://mcvst02.eur.ad.sag:27017/empmgmt', {native_parse:true});
+
+var routes = require('./routes/index');
 var users = require('./routes/users');
 var chat = require('./routes/chat');
+var employee = require('./routes/employee');
+
 var app = express();
 
 // view engine setup
@@ -26,9 +31,16 @@ app.use(cookieParser());
 app.use('/public', express.static(path.join(__dirname, 'public')));
 app.use('/socket.io', express.static(path.join(__dirname, 'node_modules/socket.io/node_modules/socket.io-client')));
 
+//assign db
+app.use(function(req, res, next){
+    req.db = db;
+    next();
+});
+
 app.use('/', routes);
 app.use('/users', users);
 app.use('/chat', chat);
+app.use('/employee', employee);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
