@@ -4,12 +4,129 @@
     <meta charset="UTF-8">
     <title>Employee</title>
     <link rel="stylesheet" href="/public/stylesheets/bootstrap.min.css">
+    <link rel="stylesheet" href="/public/stylesheets/style.css">
+    <script src="/public/javascripts/jquery-2.1.3.min.js"></script>
+    <script src="/public/javascripts/bootstrap.min.js"></script>
+
+    <script type="text/javascript">
+        $('#empForm').submit(function(e) {
+            e.preventDefault();
+            this.submit();
+            $('#empId').val('');
+            $('#name').val('');
+            $('#experience').val('');
+            $('#department').val('');
+            $('#salary').val('');
+            $('#manager').val('');
+        });
+    </script>
 </head>
-<body class="container">
-    <div class="panel panel-primary">
-        <header class="page-header">
-            <h1>Employee Management</h1>
-        </header>
+<body>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Employee Management</a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="/employeemgmt">Add Employee</a></li>
+                <li><a href="/viewemployees">View Employees</a></li>
+            </ul>
+        </div><!--/.nav-collapse -->
     </div>
+</nav>
+
+<div class="container">
+
+    <header class="employee-header">
+        <br>
+        {%if msg == 'success'%}
+            <div id="success" class="alert alert-success" role="alert">
+                Employee details saved successfully!!!
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        {%endif%}
+        <br>
+
+        <h1>Employee Management</h1>
+        <p class="lead">Empowering the employee management</p>
+        <form name="empForm" id="empForm" method="post" action="/employee">
+            <fieldset>
+
+                <div class="form-group">
+                    <label for="empId" class="control-label col-xs-4 ">Employee ID</label>
+                    <div class="col-xs-4">
+                        <input type="number" required id="empId" class="form-control" name="empId">
+                    </div>
+                </div>
+
+                <br/>
+                <br/>
+
+                <div class="form-group">
+                    <label for="name" class="control-label col-xs-4">Employee Name</label>
+                    <div class="col-xs-4">
+                        <input type="text" required id="name" class="form-control" name="name">
+                    </div>
+                </div>
+
+                <br/>
+                <br/>
+
+                <div class="form-group">
+                    <label for="experience" class="control-label col-xs-4">Experience(Yrs.)</label>
+                    <div class="col-xs-4">
+                        <input type="number" required id="experience" class="form-control" name="experience">
+                    </div>
+                </div>
+
+                <br/>
+                <br/>
+
+                <div class="form-group">
+                    <label for="department" class="control-label col-xs-4">Department</label>
+                    <div class="col-xs-4">
+                        <input type="text" required id="department" class="form-control" name="department">
+                    </div>
+                </div>
+
+                <br/>
+                <br/>
+
+                <div class="form-group">
+                    <label for="salary" class="control-label col-xs-4">Salary</label>
+                    <div class="col-xs-4">
+                        <input type="number" required id="salary" class="form-control" name="salary">
+                    </div>
+                </div>
+
+                <br/>
+                <br/>
+
+                <div class="form-group">
+                    <label for="manager" class="control-label col-xs-4">Manager</label>
+                    <div class="col-xs-4">
+                        <input type="text" required id="manager" class="form-control" name="manager">
+                    </div>
+                </div>
+
+                <br/>
+                <br/>
+            </fieldset>
+
+            <button class="btn bg-primary center-block" type="submit" name="submit">Save</button>
+        </form>
+    </header>
+
+</div><!-- /.container -->
+
 </body>
 </html>

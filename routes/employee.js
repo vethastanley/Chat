@@ -3,11 +3,6 @@
  */
 var route = require('express').Router();
 
-//view
-route.get('/employeemgmt', function(req, resp) {
-    resp.render('employee');
-});
-
 //data
 route.get('/', function(req, resp) {
     req.db.collection('employee').find().toArray(function(err, items){
@@ -16,15 +11,23 @@ route.get('/', function(req, resp) {
 });
 
 route.post('/', function(req, resp) {
-    console.log(req);
-    req.db.collection('employee').insert(req.body, function(err, res) {
-        resp.send({msg:'success'});
+    var data = {
+        empId: req.body.empId,
+        name: req.body.name,
+        experience: req.body.experience,
+        department: req.body.department,
+        salary: req.body.salary,
+        manager: req.body.manager
+    };
+    req.db.collection('employee').insert(data, function(err, res) {
+        resp.render('employee', {msg:'success'});
     })
 });
 
-route.delete('/:id', function(req, resp) {
-    var id = req.params.id;
-    req.db.collection('employee').remove({_id:id}, function(err, res) {
+route.delete('/:empId', function(req, resp) {
+    var empId = req.params.empId;
+    console.log(empId);
+    req.db.collection('employee').remove({empId:empId}, function(err, res) {
         resp.send({msg:'success'});
     });
 });

@@ -43,7 +43,6 @@ socket.on('message', function(msg){
 });
 
 socket.on('typing', function(msg) {
-    console.log("Receive typing");
     if (!$('#typing' + msg.user).length) {
         var div = $("<tr />", {class: 'info', id: 'typing' + msg.user});
         div.append($('<td />', {text: msg.message, colspan: '2'}));

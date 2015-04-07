@@ -6,8 +6,9 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var swig = require('swig');
 
+//initialize DB connection
 var mongo = require('mongoskin');
-var db = mongo.db('mongodb://mcvst02.eur.ad.sag:27017/empmgmt', {native_parse:true});
+var db = mongo.db('mongodb://mcvst02.eur.ad.sag:27017/demo', {native_parse:true});
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -18,7 +19,6 @@ var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-
 app.engine('html', swig.renderFile);
 app.set('view engine', 'html');
 
@@ -31,7 +31,7 @@ app.use(cookieParser());
 app.use('/public', express.static(path.join(__dirname, 'public')));
 app.use('/socket.io', express.static(path.join(__dirname, 'node_modules/socket.io/node_modules/socket.io-client')));
 
-//assign db
+//assign db - equivalent to a filter
 app.use(function(req, res, next){
     req.db = db;
     next();

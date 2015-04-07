@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Employee</title>
+    <link rel="stylesheet" href="/public/stylesheets/bootstrap.min.css">
+    <link rel="stylesheet" href="/public/stylesheets/style.css">
+    <script src="/public/javascripts/jquery-2.1.3.min.js"></script>
+    <script src="/public/javascripts/bootstrap.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+
+            getItems();
+
+        });
+
+        function getItems() {
+            $.ajax({url:'/employee', type: 'GET', success: function(result){
+                $.each(result, function(key, val){
+                    var div = $("<tr />", {id: val.empId + 'row'});
+                    div.append($("<td />", {text: val.empId}));
+                    div.append($("<td />", {text: val.name}));
+                    div.append($("<td />", {text: val.experience}));
+                    div.append($("<td />", {text: val.department}));
+                    div.append($("<td />", {text: val.salary}));
+                    div.append($("<td />", {text: val.manager}));
+                    var td = $("<td />");
+                    td.append($("<a />", {text: 'Delete', id:val.empId}));
+                    div.append(td);
+                    $('#emp-table').append(div);
+
+                    $('#'+val.empId).click(function(e) {
+                        deleteItem(val.empId);
+                    });
+                });
+            }});
+        }
+
+        function deleteItem(id) {
+            $.ajax({url:'/employee/'+id, type:'DELETE', success: function() {
+                $('#'+id+'row').remove();
+            }});
+        }
+    </script>
+</head>
+<body>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Employee Management</a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="/employeemgmt">Add Employee</a></li>
+                <li class="active"><a href="/viewemployees">View Employees</a></li>
+            </ul>
+        </div><!--/.nav-collapse -->
+    </div>
+</nav>
+
+<div class="container">
+    <header class="employee-header">
+        <h1>Employee Management</h1>
+        <p class="lead">Empowering the employee management</p>
+        <br>
+        <table id='emp-table' class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Employee ID</th>
+                    <th>Employee Name</th>
+                    <th>Experiment</th>
+                    <th>Department</th>
+                    <th>Salary</th>
+                    <th>Manager</th>
+                    <th></th>
+                </tr>
+            </thead>
+        </table>
+    </header>
+</div>
+
+</body>
+</html>
